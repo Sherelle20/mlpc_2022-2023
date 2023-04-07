@@ -24,7 +24,7 @@
     <p style="color:red;">Your image file must end with .png or .jpeg or .jpg</p>
     {%endif%}
     <br>
-    <form action="#" method="POST">
+    <form action="#" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <input class="btn btn-warning" type="file" id="image_file" name="myfile">
       <br> <br>

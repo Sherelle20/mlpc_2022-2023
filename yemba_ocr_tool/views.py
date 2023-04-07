@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import pytesseract
-import os
+import os, shutil
 from django.shortcuts import render
 from django.http import HttpResponse
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 def home(request):
@@ -11,9 +14,24 @@ def home(request):
     ctx = {}
     result = ""
     if request.method == 'POST':
-        myfile = request.POST['myfile']
+        
+        
+        destination_directory = os.path.join(BASE_DIR, 'images')
+        
+        uploaded_file = request.FILES['myfile']
+        
+        print("uploaded_file",uploaded_file)
+
+      
+        with open(os.path.join(destination_directory, uploaded_file.name), 'wb') as destination_file:
+            for chunk in uploaded_file.chunks():
+                destination_file.write(chunk)
+
+        myfile = 'images/'+ str(uploaded_file)
+        
+        
         if myfile.endswith(('png', 'jpeg', 'jpg')):
-            result = read_image('images/'+myfile)
+            result = read_image(myfile)
         else:
             var = True
     
@@ -54,6 +72,8 @@ def read_image(img_path, lang='ybb-eng'):
     Returns
     :text: str, converted text from image
     """
+    
+
 
     try:
         return pytesseract.image_to_string(img_path, lang=lang)
