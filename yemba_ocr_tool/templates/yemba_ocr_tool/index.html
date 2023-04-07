@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  {% load i18n %}
+<head>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+  <title>MLPC 2022-2023 Yemba OCR Tool</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1> Yemba OCR Tool </h1>
+      <p> Extract text from Images <p>
+    </div>
+   <div class="row">
+    <div class="col-sm-8"> 
+    <label for="image_file">Select image</label>
+    {%if var %}
+    <p style="color:red;">Your image file must end with .png or .jpeg or .jpg</p>
+    {%endif%}
+    <br>
+    <form action="#" method="POST">
+      {% csrf_token %}
+      <input class="btn btn-warning" type="file" id="image_file" name="myfile">
+      <br> <br>
+      <button type = "submit" class="btn btn-success"> Extract Text </button>
+    </form>
+    <br>
+   </div>
+   <div class="col-sm-4">
+    <label for="image_result">Result</label>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        {%if result %}
+        <p class="card-text"> {{result}}</p>
+     
+        
+      </div>
+    </div>
+    <br>
+    <a href="{% url 'download_file' %}" class="btn btn-primary">Download OCR Result</a>
+    <p style="color:green;">Check ocr_result.txt in your Download directory</p>
+
+
+      
+      
+      {%endif%}
+  </div>
+  </div>
+
+
+</body>
+</html>
