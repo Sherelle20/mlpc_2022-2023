@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytesseract
-import os, shutil
+import os, shutil, cv2
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -28,6 +28,7 @@ def home(request):
                 destination_file.write(chunk)
 
         myfile = 'images/'+ str(uploaded_file)
+        print("dim myfile", get_shape(myfile))
         
         
         if myfile.endswith(('png', 'jpeg', 'jpg')):
@@ -80,3 +81,8 @@ def read_image(img_path, lang='ybb-eng'):
     except:
         return "[ERROR] Unable to process file: {0}".format(img_path)
 
+def get_shape(link):
+    img = cv2.imread(link)
+    dim = img.shape
+    
+    return dim
