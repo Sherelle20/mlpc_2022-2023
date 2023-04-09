@@ -27,8 +27,8 @@ def home(request):
             for chunk in uploaded_file.chunks():
                 destination_file.write(chunk)
 
-        myfile = 'images/'+ str(uploaded_file)
-        print("dim myfile", get_shape(myfile))
+        myfile = destination_directory +'/'+ str(uploaded_file)
+        #print("dim myfile", get_shape(myfile))
         
         
         if myfile.endswith(('png', 'jpeg', 'jpg')):
@@ -78,7 +78,9 @@ def read_image(img_path, lang='ybb-eng'):
 
     try:
         return pytesseract.image_to_string(img_path, lang=lang)
-    except:
+    except Exception as e:
+        print(e)
+        #print(img_path)
         return "[ERROR] Unable to process file: {0}".format(img_path)
 
 def get_shape(link):
