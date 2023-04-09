@@ -67,6 +67,7 @@ def download_file(request):
 
 def read_image(img_path, lang='ybb-eng'):
 
+    """
     try:
         command = "sudo tesseract {0} output_text --tessdata-dir /usr/share/tesseract-ocr/5/tessdata/ -l {1}".format(img_path, lang)
         process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
@@ -85,7 +86,7 @@ def read_image(img_path, lang='ybb-eng'):
         print(e)
         #print(img_path)
         return "[ERROR] Unable to process file: {0}".format(img_path)
-    """
+    
 
 def get_shape(link):
     img = cv2.imread(link)
