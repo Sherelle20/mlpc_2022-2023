@@ -3,6 +3,8 @@ import pytesseract
 import os, shutil, cv2
 from django.shortcuts import render
 from django.http import HttpResponse
+import subprocess
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -64,24 +66,26 @@ def download_file(request):
 
 
 def read_image(img_path, lang='ybb-eng'):
-    """
-    Performs OCR on a single image
 
-    :img_path: str, path to the image file
-    :lang: str, language to be used while conversion (optional, default is english)
+    try:
+        command = "sudo tesseract {0} output_text --tessdata-dir /usr/share/tesseract-ocr/5/tessdata/ -l {1}".format(img_path, lang)
+        process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        return output.decode()
+    except Exception as e:
+        print(e)
+        return "[ERROR] Unable to process file: {0}".format(img_path)
 
-    Returns
-    :text: str, converted text from image
-    """
     
-
-
+    """
+   
     try:
         return pytesseract.image_to_string(img_path, lang=lang)
     except Exception as e:
         print(e)
         #print(img_path)
         return "[ERROR] Unable to process file: {0}".format(img_path)
+    """
 
 def get_shape(link):
     img = cv2.imread(link)
